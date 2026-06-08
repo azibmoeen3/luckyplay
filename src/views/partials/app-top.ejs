@@ -1,0 +1,10 @@
+<header class="app-topbar">
+  <a class="app-logo" href="/app">
+    <img src="/public/assets/chicken-mascot.svg" alt="logo">
+    <div><small>Welcome back!</small><strong><%= user.name %></strong></div>
+  </a>
+  <div class="app-icons">
+    <a class="icon-btn" href="/app/referrals">↗</a>
+    <a class="balance-pill" href="/app/wallet"><span>Balance</span><b id="liveBalance">PKR <%= Number(user.balance || 0).toFixed(0) %></b></a>
+  </div>
+</header>

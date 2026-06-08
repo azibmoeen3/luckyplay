@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="admin-body"><%- include('../partials/flash') %><%- include('../partials/admin-nav') %>
+<main class="admin-main">
+  <div class="admin-head"><div><span class="eyebrow">Reports</span><h1>Bet Reports</h1></div></div>
+  <form class="filter-bar" method="get">
+    <select name="game"><option value="">All Games</option><option value="chicken" <%= filters.game==='chicken'?'selected':'' %>>Chicken</option><option value="aviator" <%= filters.game==='aviator'?'selected':'' %>>Aviator</option></select>
+    <select name="status"><option value="">All Status</option><option value="won" <%= filters.status==='won'?'selected':'' %>>Won</option><option value="lost" <%= filters.status==='lost'?'selected':'' %>>Lost</option></select>
+    <button class="btn btn-small">Filter</button>
+  </form>
+  <section class="admin-card"><div class="table-wrap"><table><thead><tr><th>User</th><th>Game</th><th>Round</th><th>Amount</th><th>Multiplier</th><th>Payout</th><th>Status</th><th>Fair Seed</th><th>Date</th></tr></thead><tbody>
+    <% bets.forEach(function(b){ const u = usersById[b.userId] || {}; %>
+      <tr><td><%= u.name || 'Unknown' %></td><td><%= b.game %></td><td><small><%= b.roundId %></small></td><td><%= Number(b.amount).toFixed(2) %></td><td>x<%= Number(b.multiplier || 0).toFixed(2) %></td><td><%= Number(b.payout || 0).toFixed(2) %></td><td><span class="status <%= b.status %>"><%= b.status %></span></td><td><small><%= b.fair ? b.fair.serverSeedHash : '' %></small></td><td><%= new Date(b.createdAt).toLocaleString() %></td></tr>
+    <% }) %>
+  </tbody></table></div></section>
+</main></body></html>

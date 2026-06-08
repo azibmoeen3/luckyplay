@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="admin-body"><%- include('../partials/flash') %><%- include('../partials/admin-nav') %>
+<main class="admin-main">
+  <div class="admin-head"><div><span class="eyebrow">Growth</span><h1>Referral Reports</h1></div></div>
+  <section class="admin-card"><div class="table-wrap"><table><thead><tr><th>Referrer</th><th>Referred User</th><th>Code</th><th>Signup Bonuses</th><th>First Deposit Bonus</th><th>Status</th><th>Date</th></tr></thead><tbody>
+    <% referrals.forEach(function(r){ const referrer = usersById[r.referrerId] || {}; const referred = usersById[r.referredUserId] || {}; %>
+      <tr>
+        <td><%= referrer.name || 'Unknown' %><br><small><%= referrer.email || '' %></small></td>
+        <td><%= referred.name || 'Unknown' %><br><small><%= referred.email || '' %></small></td>
+        <td><small><%= r.code %></small></td>
+        <td>Friend: <%= Number(r.signupBonusForFriend || 0).toFixed(2) %><br>Referrer: <%= Number(r.signupBonusForReferrer || 0).toFixed(2) %></td>
+        <td><%= Number(r.firstDepositBonus || 0).toFixed(2) %></td>
+        <td><span class="status active"><%= r.status %></span></td>
+        <td><%= new Date(r.createdAt).toLocaleString() %></td>
+      </tr>
+    <% }) %>
+  </tbody></table></div></section>
+</main></body></html>

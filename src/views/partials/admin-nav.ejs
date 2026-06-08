@@ -1,0 +1,10 @@
+<aside class="admin-side">
+  <div class="brand-mini"><span class="brand-orb"></span><span class="brand-text"><b><%= settings.appName %></b><small>ADMIN</small></span></div>
+  <a class="<%= path === '/admin' ? 'active' : '' %>" href="/admin">🏠 Dashboard</a>
+  <a class="<%= path === '/admin/users' ? 'active' : '' %>" href="/admin/users">👥 Users</a>
+  <a class="<%= path === '/admin/bets' ? 'active' : '' %>" href="/admin/bets">🎮 Game Reports</a>
+  <a class="<%= path === '/admin/payments' ? 'active' : '' %>" href="/admin/payments">💳 Payments</a>
+  <a class="<%= path === '/admin/referrals' ? 'active' : '' %>" href="/admin/referrals">↗ Referrals</a>
+  <a class="<%= path === '/admin/settings' ? 'active' : '' %>" href="/admin/settings">⚙ Settings & APK</a>
+  <form method="post" action="/logout"><button class="link-btn">Logout</button></form>
+</aside>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body class="landing-body">
+  <%- include('partials/flash') %>
+  <header class="landing-header">
+    <a href="/" class="brand"><span class="brand-orb"></span><span class="brand-text"><b><%= settings.appName %></b><small>PLAY MORE</small></span></a>
+    <nav>
+      <a href="/">Home</a>
+      <a href="#games">Games</a>
+      <a href="#about">About Us</a>
+      <a href="#how">How to Play</a>
+      <a href="#contact">Contact</a>
+      <a class="btn btn-ghost btn-small" href="/login">Login</a>
+      <a class="btn btn-small" href="/register">Register</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Chicken Road + Aviator</span>
+          <h1>Play Exciting Games <span>& Win Big</span></h1>
+          <p>Enjoy a premium WebView-ready gaming application with two polished games, wallet screens, referral rewards, admin APK upload and a complete mobile bottom menu.</p>
+          <div class="hero-actions">
+            <a class="btn" href="/app">Play Now ▶</a>
+            <a class="btn btn-ghost" href="/download">Download APK</a>
+          </div>
+        </div>
+        <div class="hero-art">
+          <span class="coin-dot c1"></span><span class="coin-dot c2"></span><span class="coin-dot c3"></span>
+          <img class="hero-chicken" src="/public/assets/chicken-mascot.svg" alt="Chicken mascot">
+          <img class="hero-plane" src="/public/assets/plane-red.svg" alt="Aviator plane">
+          <div class="mult-graph">
+            <span class="mult-label ml1">1.10x</span>
+            <span class="mult-label ml2">1.25x</span>
+            <span class="mult-label ml3">1.50x</span>
+            <span class="mult-label ml4">2.20x</span>
+            <span class="mult-label ml5">5.00x</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="games" class="showcase">
+      <div class="phone-showcase-grid">
+        <div class="mini-phone"><div class="mini-screen">
+          <div class="player-row"><div class="player-avatar"><img src="/public/assets/chicken-mascot.svg" alt=""></div><div><small class="muted">Welcome back!</small><b>Player123</b><span class="vip-badge">VIP Level 2</span></div></div>
+          <div class="balance-card"><div><small>Balance</small><h2>PKR 25,000</h2></div><button class="plus-btn">+</button></div>
+          <div class="quick-actions"><span class="quick-action"><span>▣</span>Deposit</span><span class="quick-action"><span>⇣</span>Withdraw</span><span class="quick-action"><span>◉</span>History</span><span class="quick-action"><span>★</span>VIP</span></div>
+          <div class="panel-head"><h2>Popular Games</h2><a>View All</a></div>
+          <div class="mini-game"><img src="/public/assets/chicken-mascot.svg"><b>Chicken Road</b></div>
+          <div class="mini-game"><img src="/public/assets/plane-red.svg"><b>Aviator</b></div>
+        </div></div>
+        <div class="mini-phone"><div class="mini-screen">
+          <h3>Games</h3>
+          <div class="mini-banner"><b>CHICKEN ROAD</b><img src="/public/assets/chicken-mascot.svg"></div>
+          <div class="mini-banner" style="margin-top:12px;background:linear-gradient(135deg,#390b19,#0a1224)"><b>AVIATOR</b><img src="/public/assets/plane-red.svg"></div>
+          <div class="promo-wide app-card" style="margin-top:12px"><div><b>10% BONUS</b><small class="muted">Deposit & get reward</small></div><img src="/public/assets/gift.svg"></div>
+        </div></div>
+        <div class="mini-phone"><div class="mini-screen">
+          <h3>Chicken Road</h3>
+          <div class="multiplier-strip"><span>1.17x</span><span>1.23x</span><span>1.36x</span><span>1.53x</span></div>
+          <div style="height:220px;border-radius:20px;background:linear-gradient(180deg,#18243d,#0b1220);position:relative;overflow:hidden"><img src="/public/assets/chicken-mascot.svg" style="width:105px;position:absolute;left:20px;bottom:45px"><div style="position:absolute;left:130px;right:0;bottom:0;height:100px;background:linear-gradient(90deg,#24304f,#111b30);"></div></div>
+          <div class="game-info-row"><span class="active">Easy</span><span>Medium</span><span>Hard</span><span>Crazy</span></div>
+          <button class="btn full">CASH OUT PKR 234</button>
+        </div></div>
+        <div class="mini-phone"><div class="mini-screen">
+          <h3>Aviator</h3>
+          <div class="multiplier-strip"><span>1.25x</span><span>1.57x</span><span>2.20x</span><span>2.45x</span></div>
+          <div style="height:250px;border-radius:20px;background:radial-gradient(circle at 50% 50%,#18233a,#080d17);position:relative;overflow:hidden"><h1 style="text-align:center;margin:48px 0 0;font-size:54px">2.20x</h1><img src="/public/assets/plane-red.svg" style="width:260px;position:absolute;right:-45px;bottom:45px"></div>
+          <button class="btn btn-red full" style="margin-top:12px">CASH OUT PKR 220</button>
+        </div></div>
+      </div>
+      <div id="about" class="feature-strip">
+        <div class="feature-card"><b>Secure & Safe</b><span>Session-based auth, admin approval flows and wallet ledger.</span></div>
+        <div class="feature-card"><b>Fast Withdrawals</b><span>Withdrawal requests with JazzCash, EasyPaisa and bank fields.</span></div>
+        <div class="feature-card"><b>Referral System</b><span>Referral codes, signup rewards and first deposit reward reporting.</span></div>
+        <div class="feature-card"><b>Admin APK Upload</b><span>Upload APK from admin panel and expose it on the landing download route.</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact" class="landing-footer">© <%= new Date().getFullYear() %> <%= settings.companyName %>. Demo-credit platform. Enable live money only after licensing and compliance approval.</footer>
+</body>
+</html>

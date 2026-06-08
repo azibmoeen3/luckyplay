@@ -1,0 +1,39 @@
+{
+  "name": "chicken-aviator-platform",
+  "version": "1.0.0",
+  "description": "Mobile-first demo gaming platform with Chicken Road and Aviator, admin panel, landing page and APK manager.",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed": "node src/services/seed.js",
+    "verify": "node tools/verify-platform.js",
+    "smoke": "node tools/verify-platform.js"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "socket.io",
+    "mobile-webview",
+    "game-platform"
+  ],
+  "author": "Koadly Associates",
+  "license": "PROPRIETARY",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "helmet": "^7.1.0",
+    "multer": "^1.4.5-lts.1",
+    "socket.io": "^4.7.5",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}

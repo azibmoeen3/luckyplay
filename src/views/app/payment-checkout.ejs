@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="app-body"><%- include('../partials/flash') %><%- include('../partials/app-top') %>
+<main class="app-main">
+  <section class="panel-card checkout-card">
+    <span class="eyebrow">Sandbox Checkout</span>
+    <h1>Complete Payment</h1>
+    <p class="muted">Payment ID: <%= payment.id %></p>
+    <div class="checkout-amount"><%= Number(payment.amount).toFixed(2) %> <small><%= payment.currency %></small></div>
+    <div class="payment-instructions">
+      <b>Provider:</b> <%= payment.provider %><br>
+      <b>Status:</b> <%= payment.status %><br>
+      <b>Invoice:</b> <%= payment.gatewayInvoiceId || 'Manual/Sandbox' %>
+    </div>
+    <% if (payment.meta && payment.meta.sandbox && payment.status !== 'approved') { %>
+      <form method="post" action="/app/payment/<%= payment.id %>/checkout">
+        <button class="btn full" type="submit">Simulate Successful Payment</button>
+      </form>
+      <p class="mini-note">This button is only for sandbox testing. Live gateway approval should happen through verified IPN/webhook callback.</p>
+    <% } else if (payment.status === 'approved') { %>
+      <p class="good">Payment already approved.</p>
+    <% } else { %>
+      <p class="muted">Waiting for gateway confirmation.</p>
+    <% } %>
+    <a class="btn btn-ghost full" href="/app/wallet">Back to Wallet</a>
+  </section>
+</main><%- include('../partials/bottom-nav') %></body></html>

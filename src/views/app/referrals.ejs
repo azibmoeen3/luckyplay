@@ -1,0 +1,37 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="app-body"><%- include('../partials/flash') %><%- include('../partials/app-top') %>
+<main class="app-main">
+  <section class="promo-card" style="text-align:center">
+    <div style="font-size:58px;color:#a855f7">👥</div>
+    <h1>Invite your friends<br>& earn rewards</h1>
+    <p class="muted">Your code links every signup. Bonus rules are controlled from admin.</p>
+  </section>
+
+  <section class="panel-card referral-card">
+    <h2>Your Referral Code</h2>
+    <div class="big-code"><%= user.referralCode %></div>
+    <label>Share your link<input id="refLink" value="<%= baseUrl %>/register?ref=<%= user.referralCode %>" readonly></label>
+    <button class="btn btn-purple full" type="button" onclick="navigator.clipboard.writeText(document.getElementById('refLink').value)">Share Now / Copy Link</button>
+  </section>
+
+  <div class="tiny-stats referral-stats">
+    <span><b><%= stats.totalReferrals %></b><small>Total Referrals</small></span>
+    <span><b><%= Number(stats.earnings || 0).toFixed(0) %></b><small>Total Earnings</small></span>
+    <span><b><%= stats.firstDepositRewards %></b><small>Deposit Rewards</small></span>
+  </div>
+
+  <section class="panel-card"><div class="panel-head"><h2>Reward Rules</h2></div>
+    <div class="list-row"><span><b>Friend signup bonus</b><small>Given to invited user</small></span><b><%= referralSettings.signupBonusForFriend %></b></div>
+    <div class="list-row"><span><b>Referrer signup bonus</b><small>Given to you</small></span><b><%= referralSettings.signupBonusForReferrer %></b></div>
+    <div class="list-row"><span><b>First deposit reward</b><small><%= referralSettings.firstDepositPercent %>% up to <%= referralSettings.maxFirstDepositBonus %></small></span><b><%= referralSettings.rewardOnFirstDeposit ? 'ON' : 'OFF' %></b></div>
+  </section>
+
+  <section class="panel-card"><div class="panel-head"><h2>Your Referrals</h2></div>
+    <% if (!stats.directUsers.length) { %><p class="muted">No referrals yet.</p><% } %>
+    <% stats.directUsers.forEach(function(u){ %>
+      <div class="list-row"><span><b><%= u.name %></b><small><%= u.email %> • <%= new Date(u.createdAt).toLocaleDateString() %></small></span><span>PKR <%= Number(u.totalDeposit || 0).toFixed(0) %><small>deposit</small></span></div>
+    <% }) %>
+  </section>
+</main><%- include('../partials/bottom-nav') %></body></html>

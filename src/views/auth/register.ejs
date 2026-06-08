@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title><%= title %></title><link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body class="auth-body">
+  <%- include('../partials/flash') %>
+  <div class="auth-shell">
+    <a class="brand auth-brand" href="/"><span class="brand-orb"></span><b><%= settings.appName %></b></a>
+    <form class="auth-card" method="post" action="/register">
+      <span class="eyebrow">Create Account</span>
+      <h1>Start with 1000 credits</h1>
+      <label>Name<input type="text" name="name" required placeholder="Your name"></label>
+      <label>Email<input type="email" name="email" required placeholder="you@example.com"></label>
+      <label>Password<input type="password" name="password" required minlength="6" placeholder="Minimum 6 characters"></label>
+      <label>Referral Code <small class="muted">optional</small><input type="text" name="referralCode" value="<%= referralCode || '' %>" placeholder="CRPXXXX"></label>
+      <% if (settings.referral && settings.referral.enabled) { %>
+        <p class="mini-note">Referral rewards: friend gets <b><%= settings.referral.signupBonusForFriend %></b>, referrer gets <b><%= settings.referral.signupBonusForReferrer %></b> credits.</p>
+      <% } %>
+      <button class="btn full" type="submit">Create Account</button>
+      <p>Already have account? <a href="/login">Login</a></p>
+    </form>
+  </div>
+</body>
+</html>

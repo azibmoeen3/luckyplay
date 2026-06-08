@@ -1,0 +1,8 @@
+<nav class="bottom-nav">
+  <a class="<%= path === '/app' ? 'active' : '' %>" href="/app"><span>⌂</span>Home</a>
+  <a class="<%= path.includes('/game') || path === '/app/games' ? 'active' : '' %>" href="/app/games"><span>🎮</span>Games</a>
+  <a class="<%= path === '/app/wallet' ? 'active' : '' %>" href="/app/wallet"><span>▣</span>Wallet</a>
+  <a class="<%= path === '/app/vip' ? 'active' : '' %>" href="/app/vip"><span>★</span>VIP</a>
+  <a class="<%= path === '/app/referrals' ? 'active' : '' %>" href="/app/referrals"><span>👥</span>Refer</a>
+  <a class="<%= path === '/app/profile' ? 'active' : '' %>" href="/app/profile"><span>☺</span>Profile</a>
+</nav>

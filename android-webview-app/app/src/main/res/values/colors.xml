@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_black">#050913</color>
+    <color name="app_card">#0A101C</color>
+    <color name="app_yellow">#FFD21A</color>
+    <color name="app_red">#FF143C</color>
+    <color name="white">#FFFFFF</color>
+</resources>

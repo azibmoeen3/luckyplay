@@ -1,0 +1,52 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="app-body"><%- include('../partials/flash') %><%- include('../partials/app-top') %>
+<main class="app-main">
+  <section class="wallet-hero">
+    <span>Wallet Balance</span>
+    <h1><%= Number(user.balance || 0).toFixed(2) %></h1>
+    <small class="muted"><%= paymentSettings.currency %> credit ledger</small>
+    <form method="post" action="/app/wallet/topup-demo"><button class="btn btn-ghost" type="submit">Add 1000 Demo Credits</button></form>
+  </section>
+
+  <section class="panel-card payment-card">
+    <div class="panel-head"><h2>Deposit</h2><span class="status active"><%= paymentSettings.enabled ? 'Enabled' : 'Disabled' %></span></div>
+    <% if (paymentSettings.complianceMode) { %><p class="mini-note">Compliance mode is ON: this build stores payment requests and sandbox gateway records. Enable live gateway only after legal/KYC/AML approval.</p><% } %>
+    <form method="post" action="/app/wallet/deposit" class="stack-form">
+      <label>Amount (<%= paymentSettings.currency %>)<input type="number" name="amount" min="<%= paymentSettings.minDeposit %>" max="<%= paymentSettings.maxDeposit %>" value="<%= paymentSettings.minDeposit %>" required></label>
+      <label>Payment Method<select name="provider" required>
+        <option value="sandbox_gateway">Sandbox Gateway</option>
+        <option value="nowpayments">NOWPayments Invoice</option>
+        <% Object.keys(paymentSettings.manualMethods || {}).forEach(function(key){ const m = paymentSettings.manualMethods[key]; if (m && m.enabled) { %>
+          <option value="manual_<%= key %>"><%= m.title %> - <%= m.accountNumber %></option>
+        <% } }) %>
+      </select></label>
+      <label>Transaction Reference <small class="muted">for manual payments</small><input name="reference" placeholder="Tx ID / sender number"></label>
+      <label>Note<textarea name="note" placeholder="Optional note"></textarea></label>
+      <button class="btn full" type="submit">Submit Deposit</button>
+    </form>
+  </section>
+
+  <section class="panel-card payment-card">
+    <div class="panel-head"><h2>Withdraw</h2><span class="muted">Admin approval</span></div>
+    <form method="post" action="/app/wallet/withdraw" class="stack-form">
+      <label>Amount (<%= paymentSettings.currency %>)<input type="number" name="amount" min="<%= paymentSettings.minWithdraw %>" max="<%= paymentSettings.maxWithdraw %>" value="<%= paymentSettings.minWithdraw %>" required></label>
+      <label>Method<select name="provider"><option value="jazzcash">JazzCash</option><option value="easypaisa">EasyPaisa</option><option value="bank">Bank</option></select></label>
+      <label>Account Title<input name="accountTitle" placeholder="Account holder name" required></label>
+      <label>Account Number<input name="accountNumber" placeholder="Mobile / IBAN" required></label>
+      <label>Note<textarea name="note" placeholder="Optional note"></textarea></label>
+      <button class="btn btn-ghost full" type="submit">Request Withdrawal</button>
+    </form>
+  </section>
+
+  <section class="panel-card"><div class="panel-head"><h2>Payment Requests</h2></div>
+  <% if (!payments.length) { %><p class="muted">No payment requests yet.</p><% } %>
+  <% payments.forEach(function(p){ %><div class="list-row"><span><b><%= p.type %> • <%= p.provider %></b><small><%= new Date(p.createdAt).toLocaleString() %> • <%= p.reference || p.gatewayInvoiceId || 'No reference' %></small></span><span><b><%= Number(p.amount).toFixed(2) %></b><br><small class="status <%= p.status === 'approved' ? 'won' : p.status === 'rejected' ? 'lost' : 'active' %>"><%= p.status %></small></span></div><% }) %>
+  </section>
+
+  <section class="panel-card"><div class="panel-head"><h2>Transactions</h2></div>
+  <% if (!tx.length) { %><p class="muted">No transactions yet.</p><% } %>
+  <% tx.forEach(function(t){ %><div class="list-row"><span><b><%= t.type %></b><small><%= new Date(t.createdAt).toLocaleString() %></small></span><span class="<%= t.amount >= 0 ? 'good' : 'bad' %>"><%= Number(t.amount).toFixed(2) %></span></div><% }) %>
+  </section>
+</main><%- include('../partials/bottom-nav') %></body></html>

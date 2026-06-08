@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title><%= title %></title><link rel="stylesheet" href="/public/css/style.css">
+</head>
+<body class="auth-body admin-auth-bg">
+  <%- include('../partials/flash') %>
+  <div class="auth-shell">
+    <a class="brand auth-brand" href="/"><span class="brand-orb"></span><b><%= settings.appName %></b></a>
+    <form class="auth-card" method="post" action="/login">
+      <span class="eyebrow">Secure Admin</span>
+      <h1>Admin panel login</h1>
+      <label>Email<input type="email" name="email" required value="admin@koadly.local"></label>
+      <label>Password<input type="password" name="password" required value="admin123"></label>
+      <button class="btn full" type="submit">Open Admin</button>
+      <p>Change default credentials from `.env` before deployment.</p>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="admin-body"><%- include('../partials/flash') %><%- include('../partials/admin-nav') %>
+<main class="admin-main">
+  <div class="admin-head"><div><span class="eyebrow">Wallet</span><h1>Payment Requests</h1></div></div>
+  <form class="filter-bar" method="get">
+    <select name="type"><option value="">All Types</option><option value="deposit" <%= filters.type==='deposit'?'selected':'' %>>Deposit</option><option value="withdrawal" <%= filters.type==='withdrawal'?'selected':'' %>>Withdrawal</option></select>
+    <select name="status"><option value="">All Status</option><option value="pending" <%= filters.status==='pending'?'selected':'' %>>Pending</option><option value="processing" <%= filters.status==='processing'?'selected':'' %>>Processing</option><option value="approved" <%= filters.status==='approved'?'selected':'' %>>Approved</option><option value="rejected" <%= filters.status==='rejected'?'selected':'' %>>Rejected</option></select>
+    <button class="btn btn-small">Filter</button>
+  </form>
+  <section class="admin-card"><div class="table-wrap"><table><thead><tr><th>User</th><th>Type</th><th>Provider</th><th>Amount</th><th>Reference</th><th>Status</th><th>Note</th><th>Date</th><th>Action</th></tr></thead><tbody>
+    <% payments.forEach(function(p){ const u = usersById[p.userId] || {}; %>
+      <tr>
+        <td><%= u.name || 'Unknown' %><br><small><%= u.email || '' %></small></td>
+        <td><%= p.type %></td>
+        <td><%= p.provider %><br><small><%= p.gatewayInvoiceId || '' %></small></td>
+        <td><%= Number(p.amount).toFixed(2) %> <%= p.currency %></td>
+        <td><small><%= p.reference || '-' %></small></td>
+        <td><span class="status <%= p.status === 'approved' ? 'won' : p.status === 'rejected' ? 'lost' : 'active' %>"><%= p.status %></span></td>
+        <td><small><%= p.note || p.adminNote || '-' %></small></td>
+        <td><%= new Date(p.createdAt).toLocaleString() %></td>
+        <td>
+          <% if (!['approved','rejected','cancelled'].includes(p.status)) { %>
+            <form method="post" action="/admin/payments/<%= p.id %>/approve" class="inline-form"><button>Approve</button></form>
+            <form method="post" action="/admin/payments/<%= p.id %>/reject" class="inline-form"><input name="adminNote" placeholder="Reason"><button>Reject</button></form>
+          <% } else { %><small>No action</small><% } %>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody></table></div></section>
+</main></body></html>

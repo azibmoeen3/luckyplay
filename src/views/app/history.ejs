@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="app-body"><%- include('../partials/app-top') %>
+<main class="app-main">
+  <div class="section-title app-title"><span>History</span><h1>Game records</h1></div>
+  <section class="panel-card">
+  <% if (!bets.length) { %><p class="muted">No history yet.</p><% } %>
+  <% bets.forEach(function(b){ %>
+    <div class="list-row"><span><b><%= b.game %> • <%= Number(b.amount).toFixed(2) %></b><small><%= new Date(b.createdAt).toLocaleString() %> • <%= b.roundId %></small></span><span class="<%= b.status === 'won' ? 'good' : 'bad' %>"><%= b.status %><br><small>x<%= Number(b.multiplier || 0).toFixed(2) %> / <%= Number(b.payout || 0).toFixed(2) %></small></span></div>
+  <% }) %>
+  </section>
+</main><%- include('../partials/bottom-nav') %></body></html>

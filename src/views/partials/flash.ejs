@@ -1,0 +1,6 @@
+<% if (flash && flash.error) { flash.error.forEach(function(msg){ %>
+  <div class="toast toast-error"><%= msg %></div>
+<% }) } %>
+<% if (flash && flash.success) { flash.success.forEach(function(msg){ %>
+  <div class="toast toast-success"><%= msg %></div>
+<% }) } %>

@@ -1,0 +1,62 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="app-body"><%- include('../partials/flash') %><%- include('../partials/app-top') %>
+<main class="app-main">
+  <section class="app-card home-hero">
+    <div class="player-row">
+      <div class="player-avatar"><img src="/public/assets/chicken-mascot.svg" alt=""></div>
+      <div><small class="muted">Welcome back!</small><b><%= user.name %></b><span class="vip-badge">VIP Level 2</span></div>
+    </div>
+    <div class="balance-card">
+      <div><small>Balance</small><h2>PKR <%= Number(user.balance || 0).toFixed(0) %></h2></div>
+      <form method="post" action="/app/wallet/topup-demo"><button class="plus-btn" type="submit">+</button></form>
+    </div>
+  </section>
+
+  <div class="quick-actions">
+    <a class="quick-action" href="/app/wallet"><span>▣</span>Deposit</a>
+    <a class="quick-action" href="/app/wallet"><span>⇣</span>Withdraw</a>
+    <a class="quick-action" href="/app/history"><span>◉</span>History</a>
+    <a class="quick-action" href="/app/vip"><span>★</span>VIP Club</a>
+  </div>
+
+  <section class="panel-card">
+    <div class="panel-head"><h2>Popular Games</h2><a href="/app/games">View All ›</a></div>
+    <a class="game-tile chicken-tile" href="/app/game/chicken"><div class="tile-copy"><b>Chicken Road</b><small>Step forward, collect multipliers, cash out before danger.</small><span class="btn btn-small">Play Now</span></div><img src="/public/assets/chicken-mascot.svg" alt=""></a>
+    <a class="game-tile aviator-tile" href="/app/game/aviator"><div class="tile-copy"><b>Aviator</b><small>Realtime flying multiplier with Socket.IO rounds.</small><span class="btn btn-red btn-small">Play Now</span></div><img src="/public/assets/plane-red.svg" alt=""></a>
+  </section>
+
+  <section class="app-card promo-wide">
+    <div><span class="eyebrow">Promotions</span><h2>Deposit & Get<br>10% Bonus</h2><a href="/app/wallet" class="btn btn-small">Claim Now</a></div>
+    <img src="/public/assets/gift.svg" alt="gift">
+  </section>
+
+  <section class="panel-card referral-mini-card">
+    <div class="panel-head"><h2>Refer & Earn</h2><a href="/app/referrals">Open</a></div>
+    <div class="referral-code-row"><span><%= user.referralCode %></span><button type="button" onclick="navigator.clipboard.writeText(location.origin + '/register?ref=<%= user.referralCode %>')">Copy</button></div>
+    <div class="tiny-stats">
+      <span><b><%= referralStats.totalReferrals %></b><small>Referrals</small></span>
+      <span><b><%= Number(referralStats.earnings || 0).toFixed(0) %></b><small>Earnings</small></span>
+      <span><b><%= referralStats.firstDepositRewards %></b><small>Deposits</small></span>
+    </div>
+  </section>
+
+  <% if (pendingPayments && pendingPayments.length) { %>
+    <section class="panel-card"><div class="panel-head"><h2>Pending Payments</h2><a href="/app/wallet">Wallet</a></div>
+      <% pendingPayments.forEach(function(p){ %>
+        <div class="list-row"><span><b><%= p.type %> • <%= p.provider %></b><small><%= new Date(p.createdAt).toLocaleString() %></small></span><span class="status active"><%= p.status %></span></div>
+      <% }) %>
+    </section>
+  <% } %>
+
+  <section class="panel-card">
+    <div class="panel-head"><h2>Recent Plays</h2><a href="/app/history">View all</a></div>
+    <% if (!userBets.length) { %><p class="muted">No plays yet.</p><% } %>
+    <% userBets.forEach(function(b){ %>
+      <div class="list-row"><span><b><%= b.game %></b><small><%= new Date(b.createdAt).toLocaleString() %></small></span><span class="<%= b.status === 'won' ? 'good' : 'bad' %>"><%= b.status %> • PKR <%= Number(b.payout || 0).toFixed(0) %></span></div>
+    <% }) %>
+  </section>
+</main>
+<%- include('../partials/bottom-nav') %>
+<script src="/public/js/app.js"></script></body></html>

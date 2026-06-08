@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="game-body aviator-body">
+  <header class="game-top"><a href="/app/games">‹</a><b>Aviator</b><span>PKR <%= Number(user.balance || 0).toFixed(0) %></span></header>
+  <main class="aviator-stage">
+    <div class="multiplier-strip"><span>1.25x</span><span>1.57x</span><span>1.83x</span><span>2.20x</span><span>2.45x</span></div>
+    <div class="aviator-screen">
+      <canvas id="aviatorCanvas" width="680" height="440"></canvas>
+      <div class="aviator-overlay">
+        <span id="roundStatus">Waiting</span>
+        <h1 id="aviatorMultiplier">1.00x</h1>
+        <p id="aviatorCountdown">Next round loading...</p>
+      </div>
+    </div>
+    <div class="live-bets" id="liveBets"></div>
+    <div class="aviator-controls">
+      <div class="bet-box"><label>Bet Amount</label><input id="aviatorBet" type="number" value="100" min="<%= aviator.minBet %>" max="<%= aviator.maxBet %>"></div>
+      <button class="place-btn" id="placeAviator">PLACE BET</button>
+      <button class="cashout-btn" id="cashoutAviator" disabled>CASH OUT</button>
+    </div>
+    <div class="quick-bets"><button type="button" data-aviator-bet="100">100</button><button type="button" data-aviator-bet="500">500</button><button type="button" data-aviator-bet="1000">1K</button><button type="button" data-aviator-bet="5000">5K</button></div>
+  </main>
+  <%- include('../partials/bottom-nav') %>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>window.CURRENT_USER_ID='<%= user.id %>'; window.AVIATOR_SETTINGS=<%- JSON.stringify(aviator) %>;</script>
+  <script src="/public/js/aviator.js"></script>
+</body></html>

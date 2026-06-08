@@ -1,0 +1,28 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="app-body"><%- include('../partials/app-top') %>
+<main class="app-main">
+  <section class="profile-card">
+    <div class="avatar"></div>
+    <h1><%= user.name %></h1>
+    <p class="muted"><%= user.email %></p>
+    <span class="status-pill">VIP Level 2</span>
+  </section>
+  <section class="panel-card">
+    <div class="menu-list">
+      <a href="/app/profile"><span>👤 Personal Information</span><b>›</b></a>
+      <a href="/app/profile"><span>🔒 Security</span><b>›</b></a>
+      <a href="/app/wallet"><span>💳 Transactions</span><b>›</b></a>
+      <a href="/app/history"><span>🎮 Game History</span><b>›</b></a>
+      <a href="/app/vip"><span>⭐ VIP Club</span><b>›</b></a>
+      <a href="/app/referrals"><span>👥 Referral Program</span><b>›</b></a>
+      <form method="post" action="/logout"><button type="submit"><span>↩ Logout</span><b>›</b></button></form>
+    </div>
+  </section>
+  <section class="panel-card">
+    <div class="panel-head"><h2>Referral</h2><a href="/app/referrals">Open</a></div>
+    <div class="referral-code-row"><span><%= user.referralCode %></span><a href="/app/referrals">Share</a></div>
+    <div class="tiny-stats"><span><b><%= referralStats.totalReferrals %></b><small>Refs</small></span><span><b><%= Number(referralStats.earnings || 0).toFixed(0) %></b><small>Earned</small></span><span><b>PKR</b><small>Currency</small></span></div>
+  </section>
+</main><%- include('../partials/bottom-nav') %></body></html>

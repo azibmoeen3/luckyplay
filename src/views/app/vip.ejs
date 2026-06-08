@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="app-body"><%- include('../partials/flash') %><%- include('../partials/app-top') %>
+<main class="app-main vip-main">
+  <section class="vip-hero-card">
+    <div class="vip-crown-wrap"><img src="/public/assets/vip-shield.svg" alt="VIP shield"></div>
+    <h1>VIP Level <%= vip.level %></h1>
+    <p>Progress to Level <%= vip.nextLevel %></p>
+    <div class="vip-progress"><span style="width:<%= vip.progress %>%"></span></div>
+    <b><%= vip.progress %>%</b>
+  </section>
+
+  <section class="panel-card">
+    <div class="panel-head"><h2>VIP Benefits</h2><span class="status active">Active</span></div>
+    <div class="vip-benefit"><span>⭐</span><div><b>Higher withdrawal limit</b><small>Limit grows with every VIP tier.</small></div></div>
+    <div class="vip-benefit"><span>💰</span><div><b>Exclusive bonus offers</b><small>Special promos can be controlled from admin.</small></div></div>
+    <div class="vip-benefit"><span>🎧</span><div><b>Priority support</b><small>Fast support for higher level users.</small></div></div>
+    <div class="vip-benefit"><span>🏆</span><div><b>Special promotions</b><small>Level based campaigns and rewards.</small></div></div>
+  </section>
+
+  <section class="panel-card">
+    <div class="panel-head"><h2>All Levels</h2><small class="muted">Based on activity score</small></div>
+    <% vip.levels.forEach(function(level){ %>
+      <div class="vip-level-row <%= vip.level === level.level ? 'current' : '' %>">
+        <span><b>Level <%= level.level %></b><small><%= level.name %></small></span>
+        <span><b><%= level.requiredScore %></b><small>required</small></span>
+      </div>
+    <% }) %>
+  </section>
+</main>
+<%- include('../partials/bottom-nav') %></body></html>

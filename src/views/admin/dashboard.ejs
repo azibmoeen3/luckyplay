@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="admin-body"><%- include('../partials/flash') %><%- include('../partials/admin-nav') %>
+<main class="admin-main">
+  <div class="admin-head"><div><span class="eyebrow">Admin Panel</span><h1>Dashboard</h1></div><a class="btn" href="/app">Open App</a></div>
+  <section class="stats-grid stats-grid-extended">
+    <div class="stat-card"><span>Total Users</span><b><%= stats.users %></b><small class="good">+12.5%</small></div>
+    <div class="stat-card"><span>Approved Deposits</span><b>PKR <%= Number(stats.approvedDeposits).toFixed(0) %></b><small class="good">+8.3%</small></div>
+    <div class="stat-card"><span>Pending Payments</span><b><%= stats.pendingPayments %></b><small class="muted">manual approval</small></div>
+    <div class="stat-card"><span>Total Games Played</span><b><%= stats.bets %></b><small class="good">+15.2%</small></div>
+  </section>
+
+  <section class="settings-grid">
+    <div class="admin-card">
+      <div class="panel-head"><h2>Overview</h2><span class="status active">This Week</span></div>
+      <svg viewBox="0 0 620 260" width="100%" height="260" role="img" aria-label="Overview chart">
+        <defs><linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a855f7" stop-opacity=".45"/><stop offset="1" stop-color="#a855f7" stop-opacity="0"/></linearGradient></defs>
+        <g stroke="rgba(255,255,255,.08)"><path d="M40 30H600M40 80H600M40 130H600M40 180H600M40 230H600"/><path d="M40 20V230M140 20V230M240 20V230M340 20V230M440 20V230M540 20V230"/></g>
+        <path d="M40 205 C90 160 120 140 160 165 C205 192 238 90 285 115 C335 145 360 65 410 85 C465 105 490 38 600 45 L600 230 L40 230 Z" fill="url(#chartFill)"/>
+        <path d="M40 205 C90 160 120 140 160 165 C205 192 238 90 285 115 C335 145 360 65 410 85 C465 105 490 38 600 45" fill="none" stroke="#a855f7" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="admin-card">
+      <div class="panel-head"><h2>Add APK</h2><a href="/download">Test link</a></div>
+      <form method="post" action="/admin/settings/apk" enctype="multipart/form-data" class="stack-form">
+        <label>App Name<input value="<%= settings.appName %> Official App" readonly></label>
+        <label>Version<input value="1.0.0" readonly></label>
+        <label>Upload APK<input type="file" name="apk" accept=".apk" required></label>
+        <button class="btn btn-purple full" type="submit">Upload APK</button>
+      </form>
+      <div class="list-row"><span><b>Current APK</b><small><%= settings.apkFile || settings.apkUrl || 'No APK uploaded' %></small></span><span>📦</span></div>
+    </div>
+  </section>
+
+  <section class="settings-grid">
+    <div class="admin-card"><div class="panel-head"><h2>Recent Transactions</h2><a href="/admin/payments">View All</a></div>
+      <% if (!latestPayments.length) { %><p class="muted">No payment records yet.</p><% } %>
+      <% latestPayments.forEach(function(p){ %>
+        <div class="list-row"><span><b><%= p.type %> • <%= p.provider %></b><small><%= new Date(p.createdAt).toLocaleString() %></small></span><span><b>PKR <%= Number(p.amount).toFixed(0) %></b><small class="status <%= p.status === 'approved' ? 'won' : p.status === 'rejected' ? 'lost' : 'active' %>"><%= p.status %></small></span></div>
+      <% }) %>
+    </div>
+    <div class="admin-card"><div class="panel-head"><h2>Latest Bets</h2><a href="/admin/bets">Reports</a></div>
+      <% if (!latestBets.length) { %><p class="muted">No bets yet.</p><% } %>
+      <% latestBets.forEach(function(b){ %>
+        <div class="list-row"><span><b><%= b.game %> • PKR <%= Number(b.amount).toFixed(0) %></b><small><%= new Date(b.createdAt).toLocaleString() %></small></span><span class="<%= b.status === 'won' ? 'good' : 'bad' %>"><%= b.status %><small>x<%= Number(b.multiplier || 0).toFixed(2) %></small></span></div>
+      <% }) %>
+    </div>
+  </section>
+</main></body></html>

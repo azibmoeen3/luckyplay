@@ -1,0 +1,11 @@
+node_modules
+npm-debug.log
+.env
+data/database.json
+public/uploads/*.apk
+.git
+.gitignore
+README.md
+docs/
+android-webview-app/
+.DS_Store

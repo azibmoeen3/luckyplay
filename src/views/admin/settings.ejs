@@ -1,0 +1,89 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="admin-body"><%- include('../partials/flash') %><%- include('../partials/admin-nav') %>
+<main class="admin-main">
+  <div class="admin-head"><div><span class="eyebrow">Control Center</span><h1>Settings, APK, Payments & Referrals</h1></div></div>
+  <section class="settings-grid">
+    <form class="admin-card form-card" method="post" action="/admin/settings/general">
+      <h2>Landing / App</h2>
+      <label>App Name<input name="appName" value="<%= settings.appName %>"></label>
+      <label>Company Name<input name="companyName" value="<%= settings.companyName %>"></label>
+      <label>Hero Title<input name="heroTitle" value="<%= settings.heroTitle %>"></label>
+      <label>Hero Subtitle<textarea name="heroSubtitle"><%= settings.heroSubtitle %></textarea></label>
+      <label>External APK URL<input name="apkUrl" value="<%= settings.apkUrl %>" placeholder="https://..."></label>
+      <label>Support WhatsApp<input name="supportWhatsapp" value="<%= settings.supportWhatsapp %>"></label>
+      <label class="check"><input type="checkbox" name="maintenanceMode" <%= settings.maintenanceMode ? 'checked' : '' %>> Maintenance mode</label>
+      <button class="btn" type="submit">Save General</button>
+    </form>
+
+    <form class="admin-card form-card" method="post" action="/admin/settings/apk" enctype="multipart/form-data">
+      <h2>Upload APK</h2>
+      <p class="muted">Current file: <%= settings.apkFile || 'No APK uploaded' %></p>
+      <label>APK File<input type="file" name="apk" accept=".apk"></label>
+      <button class="btn" type="submit">Upload APK</button>
+      <% if (settings.apkFile || settings.apkUrl) { %><a class="btn btn-ghost" href="/download">Test Download Link</a><% } %>
+    </form>
+  </section>
+
+  <form class="admin-card form-card" method="post" action="/admin/settings/payments">
+    <h2>Payment Gateway / Wallet Settings</h2>
+    <p class="muted">Manual methods are for admin verification. NOWPayments will use environment API keys and IPN callback when enabled.</p>
+    <div class="two-col">
+      <label class="check"><input type="checkbox" name="enabled" <%= settings.payments.enabled ? 'checked' : '' %>> Payments enabled</label>
+      <label class="check"><input type="checkbox" name="complianceMode" <%= settings.payments.complianceMode ? 'checked' : '' %>> Compliance mode notice</label>
+      <label>Currency<input name="currency" value="<%= settings.payments.currency %>"></label>
+      <label>Minimum Deposit<input type="number" name="minDeposit" value="<%= settings.payments.minDeposit %>"></label>
+      <label>Maximum Deposit<input type="number" name="maxDeposit" value="<%= settings.payments.maxDeposit %>"></label>
+      <label>Minimum Withdraw<input type="number" name="minWithdraw" value="<%= settings.payments.minWithdraw %>"></label>
+      <label>Maximum Withdraw<input type="number" name="maxWithdraw" value="<%= settings.payments.maxWithdraw %>"></label>
+      <label class="check"><input type="checkbox" name="sandboxAutoApprove" <%= settings.payments.sandboxAutoApprove ? 'checked' : '' %>> Sandbox auto approve</label>
+      <label class="check"><input type="checkbox" name="nowpaymentsEnabled" <%= settings.payments.nowpaymentsEnabled ? 'checked' : '' %>> NOWPayments enabled</label>
+      <label>NOWPayments Base URL<input name="nowpaymentsBaseUrl" value="<%= settings.payments.nowpaymentsBaseUrl %>"></label>
+      <label>NOWPayments Pay Currency<input name="nowpaymentsPayCurrency" value="<%= settings.payments.nowpaymentsPayCurrency %>"></label>
+    </div>
+    <h3>Manual Payment Accounts</h3>
+    <div class="three-col">
+      <% ['jazzcash','easypaisa','bank'].forEach(function(key){ const m = settings.payments.manualMethods[key]; %>
+        <div class="method-box">
+          <label class="check"><input type="checkbox" name="<%= key %>Enabled" <%= m.enabled ? 'checked' : '' %>> <%= key %> enabled</label>
+          <label>Title<input name="<%= key %>Title" value="<%= m.title %>"></label>
+          <label>Account Title<input name="<%= key %>AccountTitle" value="<%= m.accountTitle %>"></label>
+          <label>Account Number<input name="<%= key %>AccountNumber" value="<%= m.accountNumber %>"></label>
+        </div>
+      <% }) %>
+    </div>
+    <button class="btn" type="submit">Save Payment Settings</button>
+  </form>
+
+  <form class="admin-card form-card" method="post" action="/admin/settings/referral">
+    <h2>Referral Settings</h2>
+    <div class="two-col">
+      <label class="check"><input type="checkbox" name="enabled" <%= settings.referral.enabled ? 'checked' : '' %>> Referral enabled</label>
+      <label>Code Prefix<input name="codePrefix" value="<%= settings.referral.codePrefix %>"></label>
+      <label>Friend Signup Bonus<input type="number" name="signupBonusForFriend" value="<%= settings.referral.signupBonusForFriend %>"></label>
+      <label>Referrer Signup Bonus<input type="number" name="signupBonusForReferrer" value="<%= settings.referral.signupBonusForReferrer %>"></label>
+      <label class="check"><input type="checkbox" name="rewardOnFirstDeposit" <%= settings.referral.rewardOnFirstDeposit ? 'checked' : '' %>> First deposit reward</label>
+      <label>First Deposit Percent<input type="number" step="0.01" name="firstDepositPercent" value="<%= settings.referral.firstDepositPercent %>"></label>
+      <label>Max First Deposit Bonus<input type="number" name="maxFirstDepositBonus" value="<%= settings.referral.maxFirstDepositBonus %>"></label>
+      <label>Minimum Deposit For Reward<input type="number" name="minFirstDepositForReward" value="<%= settings.referral.minFirstDepositForReward %>"></label>
+    </div>
+    <button class="btn" type="submit">Save Referral Settings</button>
+  </form>
+
+  <form class="admin-card form-card" method="post" action="/admin/settings/games">
+    <h2>Game Settings</h2>
+    <div class="two-col">
+      <label>Chicken Min Bet<input name="chickenMinBet" type="number" value="<%= settings.chicken.minBet %>"></label>
+      <label>Chicken Max Bet<input name="chickenMaxBet" type="number" value="<%= settings.chicken.maxBet %>"></label>
+      <label>Chicken House Edge<input name="chickenHouseEdge" step="0.01" type="number" value="<%= settings.chicken.houseEdge %>"></label>
+      <label>Chicken Multipliers<textarea name="chickenMultipliers"><%= settings.chicken.multipliers.join(', ') %></textarea></label>
+      <label>Aviator Min Bet<input name="aviatorMinBet" type="number" value="<%= settings.aviator.minBet %>"></label>
+      <label>Aviator Max Bet<input name="aviatorMaxBet" type="number" value="<%= settings.aviator.maxBet %>"></label>
+      <label>Aviator Min Crash<input name="aviatorMinCrash" step="0.01" type="number" value="<%= settings.aviator.minCrash %>"></label>
+      <label>Aviator Max Crash<input name="aviatorMaxCrash" step="0.01" type="number" value="<%= settings.aviator.maxCrash %>"></label>
+      <label>Aviator House Edge<input name="aviatorHouseEdge" step="0.01" type="number" value="<%= settings.aviator.houseEdge %>"></label>
+    </div>
+    <button class="btn" type="submit">Save Game Settings</button>
+  </form>
+</main></body></html>

@@ -1,0 +1,36 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="game-body chicken-game-body">
+  <header class="game-top"><a href="/app/games">‹</a><b>Chicken Road</b><span>PKR <%= Number(user.balance || 0).toFixed(0) %></span></header>
+  <main class="chicken-stage">
+    <div class="multiplier-strip">
+      <% chicken.multipliers.forEach(function(m){ %><span><%= Number(m).toFixed(2) %>x</span><% }) %>
+    </div>
+    <div class="chicken-road" id="chickenRoad">
+      <% chicken.multipliers.forEach(function(m, i){ %>
+        <div class="chicken-lane" data-step="<%= i + 1 %>">
+          <div class="lane-mult"><%= Number(m).toFixed(2) %>x</div>
+          <div class="egg"></div>
+          <div class="gate"></div>
+        </div>
+      <% }) %>
+      <div class="chicken-player" id="chickenPlayer"></div>
+    </div>
+    <div class="game-info-row"><span class="active">Easy</span><span>Medium</span><span>Hard</span><span>Crazy</span></div>
+    <div class="game-message" id="chickenMsg">Set amount and press GO.</div>
+    <div class="glass-controls">
+      <div class="game-controls">
+        <div class="bet-box"><label>Bet Amount</label><input id="chickenBet" type="number" value="100" min="<%= chicken.minBet %>" max="<%= chicken.maxBet %>"></div>
+        <button class="round-btn" type="button" onclick="document.getElementById('chickenBet').stepDown()">−</button>
+        <button class="round-btn" type="button" onclick="document.getElementById('chickenBet').stepUp()">+</button>
+        <button class="cashout-btn" id="chickenCashout" disabled>CASH OUT<br><span id="cashoutValue">0.00</span></button>
+        <button class="go-btn" id="chickenGo">GO</button>
+      </div>
+      <div class="quick-bets"><button type="button" data-bet="100">100</button><button type="button" data-bet="500">500</button><button type="button" data-bet="1000">1K</button><button type="button" data-bet="5000">5K</button></div>
+    </div>
+  </main>
+  <%- include('../partials/bottom-nav') %>
+  <script>window.CHICKEN_SETTINGS=<%- JSON.stringify(chicken) %>;</script>
+  <script src="/public/js/chicken.js"></script>
+</body></html>

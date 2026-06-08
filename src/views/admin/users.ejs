@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= title %></title><link rel="stylesheet" href="/public/css/style.css"></head>
+<body class="admin-body"><%- include('../partials/flash') %><%- include('../partials/admin-nav') %>
+<main class="admin-main">
+  <div class="admin-head"><div><span class="eyebrow">Players</span><h1>Users</h1></div></div>
+  <section class="admin-card"><div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Balance</th><th>Referral Code</th><th>Referred By</th><th>Deposits</th><th>Status</th><th>Credit</th><th>Action</th></tr></thead><tbody>
+    <% users.forEach(function(u){ const ref = users.find(x => x.id === u.referredBy); %>
+      <tr>
+        <td><%= u.name %></td><td><%= u.email %></td><td><%= u.role %></td><td><%= Number(u.balance || 0).toFixed(2) %></td><td><small><%= u.referralCode || '-' %></small></td><td><%= ref ? ref.name : '-' %></td><td><%= Number(u.totalDeposit || 0).toFixed(2) %></td><td><span class="status <%= u.isBlocked ? 'lost' : 'won' %>"><%= u.isBlocked ? 'Blocked' : 'Active' %></span></td>
+        <td><form class="inline-form" method="post" action="/admin/users/<%= u.id %>/credit"><input type="number" name="amount" value="1000"><button>Apply</button></form></td>
+        <td><% if (u.role !== 'admin') { %><form method="post" action="/admin/users/<%= u.id %>/toggle-block"><button class="mini-btn"><%= u.isBlocked ? 'Unblock' : 'Block' %></button></form><% } %></td>
+      </tr>
+    <% }) %>
+  </tbody></table></div></section>
+</main></body></html>
